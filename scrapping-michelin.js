@@ -1,9 +1,9 @@
 const cheerio = require('cheerio');
 const request = require('request-promise');
 
-var starredRestaurants = [];
 
-async function getStarredRestaurantsInUrl(url) {
+
+async function getStarredRestaurantsInUrl(url, starredRestaurants) {
   var options = {
     uri: url,
     method: "GET",
@@ -25,12 +25,15 @@ async function getStarredRestaurantsInUrl(url) {
   }
 }
 
-async function getAllStarredRestaurants(pages){
-  for(var i=1; i<=pages; i++)
+exports.get = async function getAllStarredRestaurants(){
+  var starredRestaurants = [];
+  for(var i=1; i<=35; i++)
   {
-    await getStarredRestaurantsInUrl('https://restaurant.michelin.fr/restaurants/france/restaurants-1-etoile-michelin/restaurants-2-etoiles-michelin/restaurants-3-etoiles-michelin/page-'+i);
+    process.stdout.write("\tAnalysing "+ i + " / 35 pages\r")
+    await getStarredRestaurantsInUrl('https://restaurant.michelin.fr/restaurants/france/restaurants-1-etoile-michelin/restaurants-2-etoiles-michelin/restaurants-3-etoiles-michelin/page-'+i, starredRestaurants);
   }
-  console.log(starredRestaurants);
+  await console.log("\nFound: "+starredRestaurants.length+ " starred restaurants")
+  return starredRestaurants;
 }
 
-getAllStarredRestaurants(35);
+//getAllStarredRestaurants(35);
