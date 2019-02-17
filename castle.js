@@ -6,7 +6,7 @@ const michelin = require('./scrapping-michelin');
 
 //michelin.getAllStarredRestaurants();
 
-async function test(){
+async function main(){
   try {
     console.log('-----------------------------------------------------------')
     console.log('\nStep 1: Getting Michelin starred restaurants...')
@@ -52,4 +52,4 @@ function comparaison(chateauxRestaurants, starredRestaurants)
   return hotelLinks;
 }
 
-test();
+main();
